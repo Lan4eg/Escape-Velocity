@@ -4,6 +4,44 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+<?php
+$menu =[
+	[
+		'url' => '/',
+		'title' => 'Home'
+	],
+	[
+		'url' => '/about',
+		'title' => 'About',
+		'submenu' => 
+		[
+			[
+				'url' => '/info',
+				'title' => 'Information'
+			],
+			[
+				'url' => '/project',
+				'title' => 'Project',
+				'submenu' => 
+				[
+					'url' => '/dumb',
+					'title' => 'Dumb'
+				]
+			],
+			[
+				'url' => '/contact_us',
+				'title' => 'Contact us'
+			],
+			[
+				'url' => '/map',
+				'title' => 'Map'
+
+			]
+
+		]
+	]
+]
+?>
 <html>
 	<head>
 		<title>Escape Velocity by HTML5 UP</title>
@@ -29,7 +67,28 @@
 						<!-- Nav -->
 							<nav id="nav">
 								<ul>
-									<li class="current"><a href="index.html">Home</a></li>
+									<?php foreach($menu as $item) { ?>
+										<li>
+											<a href="<?php echo $item['url'] ?>"><?php echo $item['title'] ?></a>
+											<?php if(isset($item['submenu']) AND !empty($item['submenu'])) { ?>
+											<ul>
+												<?php foreach($item['submenu'] as $subitem) { ?>
+													<li>
+														<a href="<?php echo $subitem['url'] ?>"><?php echo $subitem['title'] ?></a>
+														<?php if(isset($subitem['submenu']) AND !empty($subitem['submenu'])){ ?>
+															<?php foreach($subitem['submenu'] as $subsubitem){ ?>
+																<ul>
+																	<?var_dump($subsubitem['title'])?>
+																	<li><a href="<? echo $subsubitem['url'] ?>"><? $subsubitem['title'] ?></a></li>
+																</ul>
+															<?php } ?>
+														<?php } ?>	
+													</li>
+												<?php } ?>				
+											</ul>
+											<?php } ?>
+										</li>
+									<?php } ?>
 									<li>
 										<a href="#">Dropdown</a>
 										<ul>
