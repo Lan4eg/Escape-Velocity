@@ -24,8 +24,8 @@ $menu =[
 				'title' => 'Project',
 				'submenu' => 
 				[
-					'url' => '/dumb',
-					'title' => 'Dumb'
+					'url' => '/lol',
+					'title' => 'lol'
 				]
 			],
 			[
@@ -78,8 +78,9 @@ $menu =[
 														<?php if(isset($subitem['submenu']) AND !empty($subitem['submenu'])){ ?>
 															<?php foreach($subitem['submenu'] as $subsubitem){ ?>
 																<ul>
-																	<?var_dump($subsubitem['title'])?>
-																	<li><a href="<? echo $subsubitem['url'] ?>"><? $subsubitem['title'] ?></a></li>
+																	<li>
+																		<a href="<?php echo $subsubitem['url'] ?>"><?php $subsubitem['title'] ?></a>
+																	</li>
 																</ul>
 															<?php } ?>
 														<?php } ?>	
@@ -116,7 +117,7 @@ $menu =[
 
 					</div>
 				</div>
-
+	
 			<!-- Intro -->
 				<div id="intro-wrapper" class="wrapper style1">
 					<div class="title">The Introduction</div>
