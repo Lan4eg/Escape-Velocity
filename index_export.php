@@ -24,6 +24,7 @@
 			}
 	}
 	$fh = fopen('products_export.csv', 'w');
+	$kek
 	foreach ($final as $string) 
 	{
 		fputcsv($file,$string);	
