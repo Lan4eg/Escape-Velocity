@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 $max_file_size = 102400;//kb
 $allowed_types = ['image/jpeg', 'image/png'];
 $allowed_extensions = ['jpg', 'jpeg', 'png'];
@@ -23,30 +23,17 @@ elseif(filter_var($email, FILTER_VALIDATE_EMAIL) === FALSE)
 }
 else
 {
-	$fh = fopen('data/requests.csv', 'a');
-
-    $date = date('d.m.Y H:i');
-    $row = [$date, $name, $email, $message];
-    fputcsv($fh, $row);
-
-    fclose($fh);
-
-
-	
+	$upload_url = array();// uploaded links array , see below
 	$image = $_FILES['image'];
 	$tmp_name = $image['tmp_name'];
 	$original_name = $image['name'];
 	$files_ammount = count($original_name);
 	for ($i=0; $i < $files_ammount; $i++) 
 	{
-		 if($original_name)
+		if($original_name)
 		{
 			$dotpos = strripos($original_name[$i],'.');
 			$extension = substr($original_name[$i], $dotpos+1);
-
-			echo "<pre>";
-			var_dump($extension);
-			echo "</pre>";
 
 			if(filesize($tmp_name[$i])>($max_file_size)*1024)
 			{
@@ -74,21 +61,29 @@ else
 				{
 					die('Файл успешно загружен');
 				}
-				echo '<pre>';
-				var_dump($filename);
-				echo '</pre>';
 			}
-
-			echo "<pre>";
-			var_dump($_FILES);
-			echo "</pre>";
-			exit;
+			array_push($upload_url, 'http://beetroot.local/' . $path . '/' . $filename);// we put each uploaded file link into string array			
 		}
 	}
-	
-	
-    
 
+	if(file_exists('data/requests.txt'))// using different fopen for differnt situations
+		$fh = fopen('data/requests.txt', 'a');
+	else
+		$fh = fopen('data/requests.txt', 'w');
+	$date = date('F d, o, H:i');
+	fwrite($fh, $date . PHP_EOL);
+	fwrite($fh, 'Имя: ' . $name . PHP_EOL);
+	fwrite($fh, 'Email: ' . $email . PHP_EOL);
+	fwrite($fh, $message . PHP_EOL);
+	$a = 0;// i just like it to be clear
+	foreach($upload_url as $file)// scope thru the array to write each link to file
+	{
+		$a++;
+		fwrite($fh, 'Файл #' . $a . ': ' . $file . PHP_EOL);
+	}
+	fwrite($fh, '======================' . PHP_EOL);
+	fclose($fh);
+   
    // header('Location: index.php');
 }
 

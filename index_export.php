@@ -23,8 +23,7 @@
 				$value['author'] = $my_name;
 			}
 	}
-	$fh = fopen('products_export.csv', 'w');
-	$kek
+	$fh = fopen('products_export.csv', 'w');	
 	foreach ($final as $string) 
 	{
 		fputcsv($file,$string);	
