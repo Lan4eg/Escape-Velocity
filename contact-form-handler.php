@@ -1,4 +1,6 @@
-﻿<?php
+<?php
+session_start();
+require_once 'functions.php';
 $max_file_size = 102400;//kb
 $allowed_types = ['image/jpeg', 'image/png'];
 $allowed_extensions = ['jpg', 'jpeg', 'png'];
@@ -11,15 +13,15 @@ $message = trim($_POST['message']);
 
 if(empty($name) OR empty($email) OR empty($message))
 {
-    die('Пожалуйста, заполните все поля!');
+    set_message('Пожалуйста, заполните все поля!');
 }
 elseif(mb_strlen($name) > 250 OR mb_strlen($email) > 250)
 {
-    die('Слишком длинное имя или email');
+    set_message('Слишком длинное имя или email');
 }
 elseif(filter_var($email, FILTER_VALIDATE_EMAIL) === FALSE)
 {
-    die('Введите правильный email');
+    set_message('Введите правильный email');
 }
 else
 {
@@ -30,18 +32,18 @@ else
 	$files_ammount = count($original_name);
 	for ($i=0; $i < $files_ammount; $i++) 
 	{
-		if($original_name)
+		if($original_name[$i])
 		{
 			$dotpos = strripos($original_name[$i],'.');
 			$extension = substr($original_name[$i], $dotpos+1);
 
 			if(filesize($tmp_name[$i])>($max_file_size)*1024)
 			{
-				die('Размер загружаемого файла превышает допустимый');
+				set_message('Размер загружаемого файла превышает допустимый');
 			}
 			elseif (!in_array($image['type'][$i], $allowed_types) AND !in_array($extension, $allowed_extensions)) 
 			{
-				die('Этот файл запрещен к загрузке');
+				set_message('Этот файл запрещен к загрузке');
 			}
 			else
 			{
@@ -59,7 +61,7 @@ else
 				$result = move_uploaded_file($tmp_name[$i], $path . '/' . $filename);	
 				if(!$result)
 				{
-					die('Файл успешно загружен');
+					set_message('Файл успешно загружен');
 				}
 			}
 			array_push($upload_url, 'http://beetroot.local/' . $path . '/' . $filename);// we put each uploaded file link into string array			
@@ -84,15 +86,7 @@ else
 	fwrite($fh, '======================' . PHP_EOL);
 	fclose($fh);
    
-   // header('Location: index.php');
+   
 }
-
-function generate_random_string($length = 10) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
-    }
-    return $randomString;
-}
+set_message('Спасибо за отправку формы');
+header('Location: index.php');

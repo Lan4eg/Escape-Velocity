@@ -1,5 +1,6 @@
 <!-- Contact Form -->
     <section>
+        <?php print_message(); ?>
         <form method="post" action="contact-form-handler.php" enctype="multipart/form-data">
             <div class="row 50%">
                 <div class="6u 12u(mobile)">

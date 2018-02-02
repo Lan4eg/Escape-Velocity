@@ -1,3 +1,7 @@
+<?php
+session_start();
+require_once 'functions.php';
+?>
 <!DOCTYPE HTML>
 <!--
 	Escape Velocity by HTML5 UP
