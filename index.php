@@ -270,50 +270,85 @@ $menu =[
 
 							</div>
 							<div class="6u 12u(mobile)">
-
+<?php 
+$contacts = 
+[
+    [
+        'type' =>'address',
+        'icon' =>'icon fa-home',
+        'title' =>'Mailing address',
+        'content' =>'Untitled Corporation
+                1234 Somewhere Rd #987
+                Nashville, TN 00000-0000'
+    ],
+    [
+        'type' =>'social',
+        'icon' =>'icon fa-comment',
+        'title' =>'Social',
+        'content'=>'@untitled-corp
+                linkedin.com/untitled
+                facebook.com/untitled'
+    ],
+    [
+        'type' => 'email',
+        'icon' => 'icon fa-envelope',
+        'title' => 'Email',
+        'content' => 'info@untitled.tld'
+    ],
+    [
+        'type' => 'phone',
+        'icon' =>'icon fa-phone',
+        'title' => 'Phone',
+        'content' => '(000)-555-0000'
+    ]
+];
+?>
 								<!-- Contact -->
 									<section class="feature-list small">
-										<div class="row">
-											<div class="6u 12u(mobile)">
-												<section>
-													<h3 class="icon fa-home">Mailing Address</h3>
-													<p>
-														Untitled Corporation<br />
-														1234 Somewhere Rd #987<br />
-														Nashville, TN 00000-0000
-													</p>
-												</section>
-											</div>
-											<div class="6u 12u(mobile)">
-												<section>
-													<h3 class="icon fa-comment">Social</h3>
-													<p>
-														<a href="#">@untitled-corp</a><br />
-														<a href="#">linkedin.com/untitled</a><br />
-														<a href="#">facebook.com/untitled</a>
-													</p>
-												</section>
-											</div>
-										</div>
-										<div class="row">
-											<div class="6u 12u(mobile)">
-												<section>
-													<h3 class="icon fa-envelope">Email</h3>
-													<p>
-														<a href="#">info@untitled.tld</a>
-													</p>
-												</section>
-											</div>
-											<div class="6u 12u(mobile)">
-												<section>
-													<h3 class="icon fa-phone">Phone</h3>
-													<p>
-														(000) 555-0000
-													</p>
-												</section>
-											</div>
-										</div>
-									</section>
+                                        <div class="row">
+                                            <?php $i = 0; ?>
+                                            <?php foreach($contacts as $contact): ?>
+                                                <?php
+                                                    switch ($contact['type']) {
+                                                        case 'address':
+                                                            //$content = explode("\n", $contact['content']);
+                                                            $contact['content'] = str_replace("\n", '<br />', $contact['content']);
+                                                            break;
+                                                        case 'social':
+                                                            $content = '';
+                                                            $links = explode("\n", $contact['content']);
+
+                                                            foreach($links as $link) {
+                                                                $content = $content . '<a href="' . $link . '">' . $link . '</a>';
+                                                            }
+                                                            $contact['content'] = $content;
+                                                            break;
+                                                        case 'email':
+                                                        	$content = '';
+                                                            $links = explode("\n", $contact['content']);
+
+                                                            foreach($links as $link) {
+                                                                $content = $content . '<a href="mailto:' . $link . '">' . $link . '</a>';
+                                                            }
+                                                            $contact['content'] = $content;
+                                                            break;
+                                                        default:
+                                                            break;
+                                                    }
+                                                ?>
+                                                <div class="6u 12u(mobile)">
+                                                    <section>
+                                                        <h3 class="icon <?=$contact['icon'] ?>"><?=$contact['title'] ?></h3>
+                                                        <p><?=$contact['content'] ?></p>
+                                                    </section>
+                                                </div>
+                                                <?php if((++$i) % 2 == 0 AND $i != count($contacts)): ?>
+                                                    </div>
+                                                    <div class="row">
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </section>
 
 							</div>
 						</div>
